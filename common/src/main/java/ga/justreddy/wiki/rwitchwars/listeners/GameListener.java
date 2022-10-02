@@ -7,13 +7,12 @@ import ga.justreddy.wiki.rwitchwars.entity.GamePlayer;
 import ga.justreddy.wiki.rwitchwars.entity.PlayerController;
 import ga.justreddy.wiki.rwitchwars.enums.GameType;
 import ga.justreddy.wiki.rwitchwars.game.Game;
-import ga.justreddy.wiki.rwitchwars.game.GameTeam;
+import ga.justreddy.wiki.rwitchwars.game.team.GameTeam;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Witch;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class GameListener implements Listener {

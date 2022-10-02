@@ -1,7 +1,7 @@
 package ga.justreddy.wiki.rwitchwars.game.events;
 
 import ga.justreddy.wiki.rwitchwars.game.Game;
-import ga.justreddy.wiki.rwitchwars.game.GameTeam;
+import ga.justreddy.wiki.rwitchwars.game.team.GameTeam;
 import org.bukkit.entity.Witch;
 
 public class WitchBreakEvent extends AbstractGameEvents {

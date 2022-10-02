@@ -23,7 +23,7 @@ public class TraitorAchievement extends AbstractAchievement {
 
   @Override
   public String[] getDescription() {
-    return new String[]{"Wait what?", "Did you just try to", "kill your own witch?"};
+    return new String[]{"Wait what? Did you just", "try to kill your own witch?"};
   }
 
   @Override

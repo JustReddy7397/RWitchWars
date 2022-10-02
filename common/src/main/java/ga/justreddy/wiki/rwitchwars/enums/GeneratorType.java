@@ -38,6 +38,10 @@ public enum GeneratorType {
         return level;
     }
 
+    public int getMaxLevel() {
+        return maxLevel;
+    }
+
     public String getDisplay() {
         if (level == 1) {
             return Utils.format("&cBroken");
@@ -48,6 +52,13 @@ public enum GeneratorType {
 
     public ItemStack getDropItem() {
         return dropItem;
+    }
+
+    public static GeneratorType getByRawName(String name) {
+        for (GeneratorType type : values()) {
+            if (type.rawName.equalsIgnoreCase(name)) return type;
+        }
+        return null;
     }
 
 }

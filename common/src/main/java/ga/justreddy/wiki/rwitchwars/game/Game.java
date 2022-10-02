@@ -7,6 +7,8 @@ import ga.justreddy.wiki.rwitchwars.enums.GameState;
 import ga.justreddy.wiki.rwitchwars.enums.GameType;
 import ga.justreddy.wiki.rwitchwars.enums.GeneratorType;
 import ga.justreddy.wiki.rwitchwars.game.events.AbstractGameEvents;
+import ga.justreddy.wiki.rwitchwars.game.shop.ShopVillager;
+import ga.justreddy.wiki.rwitchwars.game.team.GameTeam;
 import ga.justreddy.wiki.rwitchwars.generators.Generator;
 import ga.justreddy.wiki.rwitchwars.utils.Cuboid;
 import ga.justreddy.wiki.rwitchwars.utils.Utils;
@@ -33,6 +35,7 @@ public class Game {
     private List<GamePlayer> players;
     private List<GameTeam> teams;
     private List<Generator> generators;
+    private List<ShopVillager> shopVillagers;
     private Cuboid cuboidLobby;
     private Cuboid cuboidArena;
     private int timer;
@@ -43,6 +46,7 @@ public class Game {
         this.teams = new ArrayList<>();
         this.players = new ArrayList<>();
         this.generators = new ArrayList<>();
+        this.shopVillagers = new ArrayList<>();
         this.displayName = Utils.format(Utils.format(configuration.getString("displayName")));
         this.minimum = configuration.getInt("minimum");
         this.gameType = GameType.valueOf(configuration.getString("gameType").toUpperCase());
@@ -64,7 +68,6 @@ public class Game {
             ConfigurationSection generatorSection = section.getConfigurationSection(key);
             generators.add(new Generator((Location) generatorSection.get("location"),
                     GeneratorType.valueOf(generatorSection.getString("type").toUpperCase()),
-                    generatorSection.getInt("time"),
                     generatorSection.getInt("level")));
         }
         ConfigurationSection teamSection = configuration.getConfigurationSection("teams");
@@ -73,6 +76,12 @@ public class Game {
             teams.add(new GameTeam(key, teamSection2, teamSize));
         }
 
+        ConfigurationSection shopVillagersSection = configuration.getConfigurationSection("shopVillagers");
+        for (String key : shopVillagersSection.getKeys(false)){
+            ConfigurationSection shopVillagersSection2 = shopVillagersSection.getConfigurationSection(key);
+            ShopVillager shopVillager = new ShopVillager((Location) shopVillagersSection2.get("location"));
+            shopVillagers.add(shopVillager);
+        }
         Location highPoint;
         Location lowPoint;
 
@@ -304,8 +313,10 @@ public class Game {
         for (Generator generator : getGenerators()) {
             generator.runTaskTimer(RWitchWars.getWitchWars(), 0, 20L);
         }
+        shopVillagers.forEach(ShopVillager::spawn);
         teams.forEach(GameTeam::spawnWitch);
         teams.forEach(GameTeam::teleportToSpawn);
+
     }
 
     public void onGameEnd(GameTeam gameTeam) {
@@ -318,6 +329,10 @@ public class Game {
 
         }
 
+    }
+
+    public void onGameRestart() {
+        shopVillagers.forEach(ShopVillager::remove);
     }
 
     public GameTeam getGameTeamById(String id) {

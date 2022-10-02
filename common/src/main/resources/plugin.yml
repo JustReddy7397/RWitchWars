@@ -5,3 +5,9 @@ authors: [JustReddy]
 description: Inspired by a dutch server I used to play on.
 softdepend:
   - PlaceholderAPI
+commands:
+  witchwars:
+    description: main command
+    aliases:
+      - ww
+      - rww

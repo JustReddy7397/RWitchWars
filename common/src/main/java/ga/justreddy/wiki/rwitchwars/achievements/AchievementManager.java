@@ -32,7 +32,7 @@ public class AchievementManager {
     gamePlayer.getAchievements().addAchievement(achievement);
     StringBuilder builder = new StringBuilder();
     for (String line : achievement.getDescription()) {
-      builder.append(line).append("\n");
+      builder.append(line).append("\n ");
     }
     RWitchWars.getWitchWars().getNms().sendJsonMessage(gamePlayer.getPlayer(),
         Utils.format(

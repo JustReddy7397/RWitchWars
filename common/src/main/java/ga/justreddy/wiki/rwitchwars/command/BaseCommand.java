@@ -1,5 +1,7 @@
 package ga.justreddy.wiki.rwitchwars.command;
 
+import ga.justreddy.wiki.rwitchwars.command.commands.ArenaCommand;
+import ga.justreddy.wiki.rwitchwars.command.commands.TestCommand;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,6 +16,7 @@ public class BaseCommand implements CommandExecutor {
 
   public BaseCommand() {
     this.commands = new ArrayList<>();
+    registerCommands(new ArenaCommand(), new TestCommand());
 
   }
 

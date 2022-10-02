@@ -5,7 +5,7 @@ import ga.justreddy.wiki.rwitchwars.RWitchWars;
 import ga.justreddy.wiki.rwitchwars.controller.MessagesController;
 import ga.justreddy.wiki.rwitchwars.cosmetics.Messages;
 import ga.justreddy.wiki.rwitchwars.game.Game;
-import ga.justreddy.wiki.rwitchwars.game.GameTeam;
+import ga.justreddy.wiki.rwitchwars.game.team.GameTeam;
 import ga.justreddy.wiki.rwitchwars.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -25,6 +25,7 @@ public class GamePlayer {
     private PlayerCosmetics cosmetics;
     private PlayerStats stats;
     private PlayerAchievements achievements;
+    private PlayerQuests quests;
 
     public GamePlayer(Player player) {
         this.player = player;
@@ -34,6 +35,7 @@ public class GamePlayer {
         this.cosmetics = new PlayerCosmetics();
         this.stats = new PlayerStats();
         this.achievements = new PlayerAchievements();
+        this.quests = new PlayerQuests();
         RWitchWars.getWitchWars().getDataStorage().loadPlayerData(this);
     }
 
@@ -130,4 +132,7 @@ public class GamePlayer {
         return MessagesController.getController().getById(cosmetics.getMessagesSelect());
     }
 
+    public PlayerQuests getQuests() {
+        return quests;
+    }
 }

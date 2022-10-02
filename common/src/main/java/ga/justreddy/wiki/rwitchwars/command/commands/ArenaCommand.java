@@ -1,6 +1,9 @@
 package ga.justreddy.wiki.rwitchwars.command.commands;
 
 import ga.justreddy.wiki.rwitchwars.command.ICommand;
+import ga.justreddy.wiki.rwitchwars.creator.ArenaCreator;
+import ga.justreddy.wiki.rwitchwars.entity.PlayerController;
+import ga.justreddy.wiki.rwitchwars.menus.menu.SelectGameTypeMenu;
 import org.bukkit.entity.Player;
 
 public class ArenaCommand implements ICommand {
@@ -40,13 +43,12 @@ public class ArenaCommand implements ICommand {
     }
 
   }
-  
-  private void createArenaCommand(Player player, String name) {
 
+  private void createArenaCommand(Player player, String name) {
+    ArenaCreator.getCreator().createArena(PlayerController.getController().get(player), "testing");
   }
 
   private void sendHelpCommand(Player player) {
-
   }
 
 

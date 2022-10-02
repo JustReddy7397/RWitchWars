@@ -5,7 +5,9 @@ import ga.justreddy.wiki.rwitchwars.RWitchWars;
 import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 import org.bukkit.Bukkit;
@@ -111,6 +113,52 @@ public class Utils {
 
     public static void sendConsole(String... message) {
         Arrays.stream(message).forEach(Utils::sendConsole);
+    }
+
+    public static long getDurationMS(String time) {
+        long ms = 0;
+        if (time.toLowerCase().contains("s"))
+            ms = (Long.parseLong(time.replace("s", "")) * 1000) + new Date().getTime();
+        if (time.toLowerCase().contains("m") && !time.toLowerCase().contains("o"))
+            ms = ((Long.parseLong(time.replace("m", "")) * 1000) * 60) + new Date().getTime();
+        if (time.toLowerCase().contains("h"))
+            ms = (((Long.parseLong(time.replace("h", "")) * 1000) * 60) * 60) + new Date().getTime();
+        if (time.toLowerCase().contains("d"))
+            ms = ((((Long.parseLong(time.replace("d", "")) * 1000) * 60) * 60) * 24) + new Date().getTime();
+        if (time.toLowerCase().contains("w"))
+            ms = (((((Long.parseLong(time.replace("w", "")) * 1000) * 60) * 60) * 24) * 7) + new Date().getTime();
+        if (time.toLowerCase().contains("m") && time.toLowerCase().contains("o"))
+            ms = (((((Long.parseLong(time.replace("mo", "")) * 1000) * 60) * 60) * 24) * 30) + new Date().getTime();
+        if (time.toLowerCase().contains("y"))
+            ms = ((((((Long.parseLong(time.replace("y", "")) * 1000) * 60) * 60) * 24) * 7) * 52) + new Date().getTime();
+
+        return ms;
+    }
+
+    public static String getDurationString(long time) {
+        long current = System.currentTimeMillis();
+        long millies = time - current;
+        long seconds = 0L;
+        long minutes = 0L;
+        long hours = 0L;
+        long days = 0L;
+        while (millies > 1000L) {
+            millies -= 1000L;
+            ++seconds;
+        }
+        while (seconds > 60L) {
+            seconds -= 60L;
+            ++minutes;
+        }
+        while (minutes > 60L) {
+            minutes -= 60L;
+            ++hours;
+        }
+        while (hours > 24L) {
+            hours -= 24L;
+            ++days;
+        }
+        return days + "d" + hours + "h" + minutes + "m" + seconds + "s";
     }
 
 }

@@ -1,7 +1,11 @@
 package ga.justreddy.wiki.rwitchwars;
 
 import ga.justreddy.wiki.rwitchwars.achievements.AchievementManager;
+import ga.justreddy.wiki.rwitchwars.command.BaseCommand;
+import ga.justreddy.wiki.rwitchwars.entity.GamePlayer;
 import ga.justreddy.wiki.rwitchwars.hooks.PlaceholderHook;
+import ga.justreddy.wiki.rwitchwars.menus.MenuEvent;
+import ga.justreddy.wiki.rwitchwars.menus.SuperMenu;
 import ga.justreddy.wiki.rwitchwars.nms.INms;
 import ga.justreddy.wiki.rwitchwars.controller.GameController;
 import ga.justreddy.wiki.rwitchwars.controller.MapController;
@@ -10,10 +14,15 @@ import ga.justreddy.wiki.rwitchwars.dependency.DLoader;
 import ga.justreddy.wiki.rwitchwars.dependency.base.Dependency;
 import ga.justreddy.wiki.rwitchwars.listeners.GameListener;
 import ga.justreddy.wiki.rwitchwars.listeners.PluginListener;
+import ga.justreddy.wiki.rwitchwars.quests.QuestManager;
 import ga.justreddy.wiki.rwitchwars.storage.DataStorage;
 import ga.justreddy.wiki.rwitchwars.storage.SQLite;
 import ga.justreddy.wiki.rwitchwars.tasks.GameTask;
+import ga.justreddy.wiki.rwitchwars.tasks.InventoryTask;
+import ga.justreddy.wiki.rwitchwars.tasks.QuestTask;
 import ga.justreddy.wiki.rwitchwars.utils.Utils;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.Getter;
 import me.clip.placeholderapi.PlaceholderAPIPlugin;
 import org.bukkit.Bukkit;
@@ -34,7 +43,13 @@ public final class RWitchWars extends JavaPlugin {
   @Getter
   private AchievementManager achievementManager;
 
+  @Getter
+  private QuestManager questManager;
+
   private static final String VERSION = getVersion(Bukkit.getServer());
+
+  @Getter
+  private final Map<GamePlayer, SuperMenu> openMenus = new HashMap<>();
 
   @Override
   public void onLoad() {
@@ -78,10 +93,15 @@ public final class RWitchWars extends JavaPlugin {
     dataStorage.createData();
     Utils.sendConsole("&7[&dRWitchWars&7] &aStarting tasks...");
     new GameTask().runTaskTimer(this, 0, 20L);
+    new QuestTask().runTaskTimerAsynchronously(this, 0, 20L);
+    new InventoryTask().runTaskTimerAsynchronously(this, 0, 20L);
     this.achievementManager = new AchievementManager();
+    this.questManager = new QuestManager();
     Utils.sendConsole("&7[&dRWitchWars&7] &aRegistering events...");
     getServer().getPluginManager().registerEvents(new GameListener(), this);
     getServer().getPluginManager().registerEvents(new PluginListener(), this);
+    getServer().getPluginManager().registerEvents(new MenuEvent(), this);
+    getCommand("witchwars").setExecutor(new BaseCommand());
     Utils.sendConsole("&7[&dRWitchWars&7] &aPlugin successfully loaded");
   }
 

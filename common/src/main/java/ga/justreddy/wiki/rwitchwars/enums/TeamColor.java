@@ -36,4 +36,12 @@ public enum TeamColor {
     public String getIdentifier() {
         return identifier;
     }
+
+    public static TeamColor getById(String id) {
+        for (TeamColor teamColor : values()) {
+            if (teamColor.getIdentifier().equalsIgnoreCase(id)) return teamColor;
+        }
+        return null;
+    }
+
 }

@@ -44,4 +44,7 @@ public class PlayerController {
         remove(Bukkit.getPlayer(uuid));
     }
 
+    public Map<UUID, GamePlayer> getGamePlayerMap() {
+        return gamePlayerMap;
+    }
 }

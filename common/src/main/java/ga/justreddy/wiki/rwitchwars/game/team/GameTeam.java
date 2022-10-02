@@ -1,20 +1,20 @@
-package ga.justreddy.wiki.rwitchwars.game;
+package ga.justreddy.wiki.rwitchwars.game.team;
 
+import com.cryptomorin.xseries.XMaterial;
 import de.tr7zw.changeme.nbtapi.NBTEntity;
+import de.tr7zw.changeme.nbtapi.NBTItem;
 import ga.justreddy.wiki.rwitchwars.RWitchWars;
 import ga.justreddy.wiki.rwitchwars.entity.GamePlayer;
-import ga.justreddy.wiki.rwitchwars.enums.GeneratorType;
 import ga.justreddy.wiki.rwitchwars.enums.TeamColor;
-import ga.justreddy.wiki.rwitchwars.generators.Generator;
-import ga.justreddy.wiki.rwitchwars.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Witch;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
+import org.bukkit.inventory.ItemStack;
 
 public class GameTeam {
 
@@ -23,6 +23,8 @@ public class GameTeam {
     private final Location spawnLocation;
     private Witch witch;
     private final Location witchLocation;
+    private int sharpnesslevel;
+    private int protectionLevel;
     private final int maximum;
 
     public GameTeam(String id, ConfigurationSection section, int maximum) {
@@ -31,6 +33,8 @@ public class GameTeam {
         this.spawnLocation = (Location) section.get("spawnLocation");
         this.witchLocation = (Location) section.get("witchLocation");
         this.maximum = maximum;
+        this.sharpnesslevel = 0;
+        this.protectionLevel = 0;
     }
 
     public TeamColor getTeamColor() {
@@ -140,4 +144,14 @@ public class GameTeam {
         gamePlayers.stream().filter(gamePlayer -> !gamePlayer.isDead()).forEach(this::teleportToSpawn);
     }
 
+    public void giveItems(GamePlayer gamePlayer) {
+        NBTItem item = new NBTItem(XMaterial.WOODEN_SWORD.parseItem());
+        item.setString("swordId", "gameSword");
+        if (sharpnesslevel != 0) {
+            item.getItem().addEnchantment(Enchantment.DAMAGE_ALL, sharpnesslevel);
+        }
+        gamePlayer.getPlayer().getInventory().addItem(item.getItem());
+        
+
+    }
 }

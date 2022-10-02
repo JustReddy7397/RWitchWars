@@ -11,7 +11,6 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import net.minecraft.server.v1_8_R3.PlayerConnection;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.block.Biome;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
@@ -99,7 +98,6 @@ public final class v1_8_R3 implements INms {
       @Override
       public ChunkData generateChunkData(World world, Random random, int x, int z, BiomeGrid biome) {
         ChunkData chunkData = createChunkData(world);
-        biome.setBiome(16, 16, Biome.PLAINS);
         return chunkData;
       }
     };

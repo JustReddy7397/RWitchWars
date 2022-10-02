@@ -1,0 +1,8 @@
+# Welcome to the quests.yml file.
+# Here you can edit what rewards are given ( by using commands ) when a quest got completed!
+# And edit the completed message
+
+quests:
+  witchwars_player:
+    message: "&7Quest completed: &6<name>"
+    commands: []

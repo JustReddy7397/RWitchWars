@@ -20,16 +20,17 @@ public class Generator extends BukkitRunnable {
     private double timeX;
     private int level;
 
-    public Generator(Location location, GeneratorType generatorType, double time, int level) {
+    public Generator(Location location, GeneratorType generatorType, int level) {
         this.location = location;
         this.generatorType = generatorType;
-        this.time = time;
-        this.timeX = time;
         this.level = level;
+        setLevel(level);
+        this.time = timeX;
     }
 
     @Override
     public void run() {
+        if (level == 0) return;
         time = time - 0.05;
         if (time <= 0) {
             Bukkit.getScheduler().runTask(RWitchWars.getWitchWars(), () -> {
@@ -44,6 +45,9 @@ public class Generator extends BukkitRunnable {
         switch (generatorType) {
             case WART:
                 switch (level) {
+                    case 1:
+                        this.timeX = 2;
+                        break;
                     case 2:
                         this.timeX = 1;
                         break;
