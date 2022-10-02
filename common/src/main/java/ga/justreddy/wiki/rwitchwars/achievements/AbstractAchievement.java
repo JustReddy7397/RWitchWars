@@ -17,6 +17,8 @@ public abstract class AbstractAchievement {
 
   public abstract AchievementType getId();
 
+  public abstract AchievementDifficulty getDifficulty();
+
   public abstract String[] getDescription();
 
   public abstract long getRequiredAmount();

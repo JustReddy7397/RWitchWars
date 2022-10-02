@@ -1,6 +1,7 @@
 package ga.justreddy.wiki.rwitchwars.achievements.achievement;
 
 import ga.justreddy.wiki.rwitchwars.achievements.AbstractAchievement;
+import ga.justreddy.wiki.rwitchwars.achievements.AchievementDifficulty;
 import ga.justreddy.wiki.rwitchwars.achievements.AchievementType;
 
 public class SerialKillerAchievement extends AbstractAchievement {
@@ -16,8 +17,13 @@ public class SerialKillerAchievement extends AbstractAchievement {
   }
 
   @Override
+  public AchievementDifficulty getDifficulty() {
+    return AchievementDifficulty.HARD;
+  }
+
+  @Override
   public String[] getDescription() {
-    return new String[]{"Kill 5 players without dying."};
+    return new String[]{"Eliminate 5 players without dying."};
   }
 
   @Override

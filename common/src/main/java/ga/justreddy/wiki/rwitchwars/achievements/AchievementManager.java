@@ -57,4 +57,7 @@ public class AchievementManager {
     return achievementList.stream().filter(achievement -> achievement.getId() == type).findFirst().orElse(null);
   }
 
+  public List<AbstractAchievement> getAchievementList() {
+    return achievementList;
+  }
 }

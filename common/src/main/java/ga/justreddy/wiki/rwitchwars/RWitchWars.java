@@ -1,6 +1,7 @@
 package ga.justreddy.wiki.rwitchwars;
 
 import ga.justreddy.wiki.rwitchwars.achievements.AchievementManager;
+import ga.justreddy.wiki.rwitchwars.hooks.PlaceholderHook;
 import ga.justreddy.wiki.rwitchwars.nms.INms;
 import ga.justreddy.wiki.rwitchwars.controller.GameController;
 import ga.justreddy.wiki.rwitchwars.controller.MapController;
@@ -14,6 +15,7 @@ import ga.justreddy.wiki.rwitchwars.storage.SQLite;
 import ga.justreddy.wiki.rwitchwars.tasks.GameTask;
 import ga.justreddy.wiki.rwitchwars.utils.Utils;
 import lombok.Getter;
+import me.clip.placeholderapi.PlaceholderAPIPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -51,7 +53,7 @@ public final class RWitchWars extends JavaPlugin {
   public void onEnable() {
     // Plugin startup logic
     witchWars = this;
-    System.out.println(VERSION);
+    Utils.sendConsole("&7[&dRWitchWars&7] &aLoading plugin...");
     Utils.sendConsole("&7[&dRWitchWars&7] &aFinding nms version...");
     try {
       nms = (INms) Class.forName("ga.justreddy.wiki.rwitchwars." + VERSION + "." + VERSION).newInstance();
@@ -62,14 +64,25 @@ public final class RWitchWars extends JavaPlugin {
       ex.printStackTrace();
       return;
     }
+    Utils.sendConsole("&7[&dRWitchWars&7] &a Checking if PlaceholderAPI is enabled...");
+    if (getServer().getPluginManager().isPluginEnabled(PlaceholderAPIPlugin.getInstance())) {
+      Utils.sendConsole("&7[&dRWitchWars&7] &aPlaceholderAPI found, hooking...");
+      new PlaceholderHook().register();
+    } else {
+      Utils.sendConsole("&7[&dRWitchWars&7] &cPlaceholderAPI not found, skipping...");
+    }
+    Utils.sendConsole("&7[&dRWitchWars&7] &aRegistering controllers...");
     registerControllers();
+    Utils.sendConsole("&7[&dRWitchWars&7] &aConnecting to a database...");
     dataStorage = new SQLite();
     dataStorage.createData();
+    Utils.sendConsole("&7[&dRWitchWars&7] &aStarting tasks...");
     new GameTask().runTaskTimer(this, 0, 20L);
     this.achievementManager = new AchievementManager();
+    Utils.sendConsole("&7[&dRWitchWars&7] &aRegistering events...");
     getServer().getPluginManager().registerEvents(new GameListener(), this);
     getServer().getPluginManager().registerEvents(new PluginListener(), this);
-
+    Utils.sendConsole("&7[&dRWitchWars&7] &aPlugin successfully loaded");
   }
 
   @Override
